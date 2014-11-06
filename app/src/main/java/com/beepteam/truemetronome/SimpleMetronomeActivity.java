@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/**
+ * Created by eljetto on 11/5/2014.
+ */
 public class SimpleMetronomeActivity extends Activity {
+    Bar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_metronome);
+        bar = new Bar(Constants.DEFAULT_TEMPO, Constants.DEFAULT_TIME_SIGNATURE);
     }
 
 
@@ -35,5 +39,11 @@ public class SimpleMetronomeActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startPaying(){
+
+        bar.play();
+
     }
 }

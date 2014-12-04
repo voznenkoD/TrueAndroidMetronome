@@ -1,9 +1,12 @@
 package com.beepteam.truemetronome;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by eljetto on 11/5/2014.
@@ -14,6 +17,14 @@ public class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        final Button button = (Button) findViewById(R.id.SimpleButton);
+        SoundManager.loadSoundToPool(this.getApplicationContext(),"sounds/default/defaultClick.wav");//todo load soundPackage
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, SimpleMetronomeActivity.class);
+                startActivityForResult(intent,0);
+            }
+        });
     }
 
 

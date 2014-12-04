@@ -1,49 +1,57 @@
 package com.beepteam.truemetronome;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-/**
- * Created by eljetto on 11/5/2014.
+/*
+ * Created by a.sergienko
  */
 public class SimpleMetronomeActivity extends Activity {
-    Bar bar;
+    private Boolean isRunning = false;
+    private Bar bar = new Bar(120,Constants.DEFAULT_TIME_SIGNATURE);
+    private MetronomeAsyncTask task = new MetronomeAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_metronome);
-        bar = new Bar(Constants.DEFAULT_TEMPO, Constants.DEFAULT_TIME_SIGNATURE);
+
+
+        final Button button = (Button) findViewById(R.id.SS_BTN);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                isRunning = !isRunning;
+                if(!isRunning){
+                    button.setText("Start");
+                    task = new MetronomeAsyncTask();
+                    Runtime.getRuntime().gc();
+                }
+                else{
+                    button.setText("Stop");
+                    task.execute(bar);
+                }
+            }
+        });
     }
 
+    private class MetronomeAsyncTask extends AsyncTask<Bar,Void,String> {
+        MetronomeAsyncTask() {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_simple_metronome, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
         }
+        @Override
+        protected String doInBackground(Bar... bars) {
+            while(isRunning){
+                for (Bar bar : bars) {
+                    bar.play();
+                }
+            }
+            return null;
+        }
+        public void stop() {
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void startPaying(){
-
-        bar.play();
-
+        }
     }
 }

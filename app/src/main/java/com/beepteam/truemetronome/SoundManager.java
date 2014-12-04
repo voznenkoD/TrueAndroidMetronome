@@ -13,7 +13,7 @@ import java.util.HashMap;
  * Created by eljetto on 11/5/2014.
  */
 public class SoundManager {
-    public static HashMap metronomeSounds;
+    public static HashMap metronomeSounds = new HashMap();
     public static SoundPool soundPool;
 
 
@@ -27,7 +27,7 @@ public class SoundManager {
         loadSoundToPool(context, oneFromPackage);
     }
 
-    private static void loadSoundToPool(Context context, String soundName) {
+    public static void loadSoundToPool(Context context, String soundName) {
         int id = soundPool.load(getFileDescriptorFromContext(context, soundName), 1);
         metronomeSounds.put(soundName, id);
     }
@@ -47,8 +47,7 @@ public class SoundManager {
 
             //TODO LOGGER
         }
-
-
+        return null;
     }
 
     //todo sound.release(); onCloseOfApplication to release the sources

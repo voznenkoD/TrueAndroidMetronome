@@ -9,22 +9,30 @@ public class Bar {
     private int tempo;
     private TimeSignature timeSignature;
     private int pause;
+    private boolean isWithAccent;
 
     private int currentBeat = 1;
     public Bar() {
     }
 
     public Bar(int tempo, TimeSignature timeSignature) {
+        this();
         this.tempo = tempo;
         this.timeSignature = timeSignature;
-        pause = Constants.MINUTE_MILLISEC / tempo;
+        this.pause = Constants.MINUTE_MILLISEC / tempo;
         countPauseBasedOnNoteLength();//todo refactor
     }
+
+    public Bar(int tempo, TimeSignature timeSignature, boolean isWithAccent) {
+        this(tempo,timeSignature);
+        this.isWithAccent = isWithAccent;
+    }
+
     public void play(){
-            if (true && currentBeat == 1){ //todo isAccented
-                beep(1);
-            } else {
+            if (isWithAccent && currentBeat == 1){
                 beep(2);
+            } else {
+                beep(1);
             }
             try {
                 Thread.sleep(pause);

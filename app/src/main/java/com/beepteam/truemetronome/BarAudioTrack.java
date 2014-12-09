@@ -13,116 +13,57 @@ import java.io.OutputStream;
 /**
  * Created by eljetto on 11/5/2014.
  */
-public class BarAudioTrack {
-    private int tempo;
-    private TimeSignature timeSignature;
-    private int pause;
-    private boolean isWithAccent;
-    long before;
-    long after;
+public class BarAudioTrack extends Bar {
 
-    private int stream = AudioManager.STREAM_MUSIC;
-    private int rate = 44100;
-    private int channel = AudioFormat.CHANNEL_OUT_STEREO;
-    private int format = AudioFormat.ENCODING_PCM_16BIT;
-    private int bufferSize = 4096;
-    private int mode = AudioTrack.MODE_STREAM;
     private AudioTrack track;
     byte[] soundBytes = null;
-    Context context;
 
-    private int currentBeat = 1;
-    public BarAudioTrack() {
+    public BarAudioTrack(int tempo, TimeSignature timeSignature, Context context) {
+        super(tempo, timeSignature);
+        try {
+            initAudioTrack(context);
+        } catch (IOException e) {
+            e.printStackTrace();//todo proper exception handling
+        }
     }
 
-    public BarAudioTrack(int tempo, TimeSignature timeSignature) {
-        this();
-        this.tempo = tempo;
-        this.timeSignature = timeSignature;
-        this.pause = Constants.MINUTE_MILLISEC / tempo;
-    }
+    @Override
+    public void play() {
 
-    public BarAudioTrack(int tempo, TimeSignature timeSignature, Context context) throws IOException {
-        this(tempo,timeSignature);
-        this.context = context;
-        soundBytes = this.load(R.raw.defaultclick);
-        bufferSize = AudioTrack.getMinBufferSize(rate, channel, format);
-        track = new AudioTrack(stream, rate, channel, format, bufferSize, mode);
-        track.play();
-    }
-
-    public BarAudioTrack(int tempo, TimeSignature timeSignature, boolean isWithAccent) {
-        this(tempo,timeSignature);
-        this.isWithAccent = isWithAccent;
-    }
-
-    public void play(){
-            if (isWithAccent && currentBeat == 1){
-               // SoundManager.soundPool.play(2, 0.5f, 1.0f, 1, 0, 1.0f);
-            } else {
-               // SoundManager.soundPool.play(1, 0.5f, 1.0f, 1, 0, 1.0f);
-                track.write(soundBytes, 0, soundBytes.length);
-            }
-            try {
-                before = System.currentTimeMillis();
-                Thread.sleep(pause);
-                after = System.currentTimeMillis();
-                if(currentBeat == timeSignature.getNumberOfBeats())currentBeat=1;
-                else currentBeat++;
-            } catch (Exception ignored) {
-            }
-    }
-
-    private void countPauseBasedOnNoteLength(){
-        switch (timeSignature.getNoteLength()) {
-            case 1:
-                pause = pause * 4;
-                break;
-            case 2:
-                pause = pause * 2;
-                break;
-            case 8:
-                pause = pause / 2;
-                break;
-            case 16:
-                pause = pause / 4;
-                break;
-            case 32:
-                pause = pause / 8;
-                break;
-            case 64:
-                pause = pause / 16;
-                break;
+        if (isWithAccent && currentBeat == 1) {
+        } else {
+            before = System.currentTimeMillis();
+            track.play();
+            after = System.currentTimeMillis();
+        }
+        try {
+            Thread.sleep(pause - (after - before));
+            if (currentBeat == timeSignature.getNumberOfBeats()) currentBeat = 1;
+            else currentBeat++;
+        } catch (Exception ignored) {
         }
     }
 
 
-    private byte[] load(InputStream in) throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-        this.copy(in, out);
-
-        return out.toByteArray();
-    }
-    private byte[] load(int resId) throws IOException {
-        byte[] output = null;
-
-        InputStream input = context.getResources().openRawResource(resId);
-        output = this.load(input);
-        input.close();
-
-        return output;
-    }
-    private void copy(InputStream in, OutputStream out) throws IOException {
+    private void initAudioTrack(Context context) throws IOException {
+        int stream = AudioManager.STREAM_MUSIC;
+        int rate = 44100;
+        int channel = AudioFormat.CHANNEL_OUT_STEREO;
+        int format = AudioFormat.ENCODING_PCM_16BIT;
+        int mode = AudioTrack.MODE_STATIC;
         int b;
 
-        while ((b = in.read()) != -1) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        InputStream input = context.getResources().openRawResource(R.raw.defaultclick);
+
+        while ((b = input.read()) != -1) {
             out.write(b);
         }
-    }
 
-
-    public int getPause() {
-        return pause;
+        input.close();
+        soundBytes = out.toByteArray();
+        int bufferSize = AudioTrack.getMinBufferSize(rate, channel, format);
+        track = new AudioTrack(stream, rate, channel, format, bufferSize, mode);
+        track.write(soundBytes, 0, soundBytes.length);
     }
 }

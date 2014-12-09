@@ -1,17 +1,17 @@
 package com.beepteam.truemetronome;
 
-import android.media.SoundPool;
-
 /**
- * Created by eljetto on 11/5/2014.
+ * Created by d.Voznenko on 12/9/2014.
  */
-public class Bar {
-    private int tempo;
-    private TimeSignature timeSignature;
-    private int pause;
-    private boolean isWithAccent;
+public abstract class Bar {
+    protected int tempo;
+    protected TimeSignature timeSignature;
+    protected int pause;
+    protected boolean isWithAccent;
+    protected int currentBeat = 1;
+    protected long before = 0L;
+    protected long after = 0L;
 
-    private int currentBeat = 1;
     public Bar() {
     }
 
@@ -26,24 +26,6 @@ public class Bar {
     public Bar(int tempo, TimeSignature timeSignature, boolean isWithAccent) {
         this(tempo,timeSignature);
         this.isWithAccent = isWithAccent;
-    }
-
-    public void play(){
-            if (isWithAccent && currentBeat == 1){
-                beep(2);
-            } else {
-                beep(1);
-            }
-            try {
-                Thread.sleep(pause);
-                if(currentBeat == timeSignature.getNumberOfBeats())currentBeat=1;
-                else currentBeat++;
-            } catch (Exception ignored) {
-            }
-    }
-
-    private void beep(int soundPoolBeepId){
-        SoundManager.soundPool.play(soundPoolBeepId, 0.5f, 1.0f, 1, 0, 1.0f);
     }
 
     private void countPauseBasedOnNoteLength(){
@@ -68,4 +50,14 @@ public class Bar {
                 break;
         }
     }
+
+    public void play(){
+
+    }
+
+
+    public int getPause() {
+        return pause;
+    }
+
 }

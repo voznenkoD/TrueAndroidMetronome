@@ -18,7 +18,7 @@ public class SoundManager {
 
 
     static {
-       // initSoundPool();
+       initSoundPool();
     }
 
     public static void loadSoundPackageToPool(Context context, SoundPackages soundPackage){

@@ -13,7 +13,7 @@ import java.io.IOException;
  */
 public class SimpleMetronomeActivity extends Activity {
     private Boolean isRunning = false;
-    private BarAudioTrack bar;
+    private Bar bar;
     private MetronomeAsyncTask task = new MetronomeAsyncTask();
 
     @Override
@@ -35,32 +35,30 @@ public class SimpleMetronomeActivity extends Activity {
                 }
             }
         });
-        try {
-            bar = new BarAudioTrack(160,Constants.DEFAULT_TIME_SIGNATURE,this.getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        bar = new BarAudioTrack(160,Constants.DEFAULT_TIME_SIGNATURE,this.getApplicationContext());
+        //bar = new BarSoundPool(160,Constants.DEFAULT_TIME_SIGNATURE);
+
     }
 
-    private class MetronomeAsyncTask extends AsyncTask<BarAudioTrack,Void,String> {
+    private class MetronomeAsyncTask extends AsyncTask<Bar,Void,String> {
         MetronomeAsyncTask() {
 
         }
         @Override
-        protected String doInBackground(BarAudioTrack... bars) {
+        protected String doInBackground(Bar... bars) {
             long before;
             long after;
             long maxDelay = Integer.MIN_VALUE;
             long minDelay = Integer.MAX_VALUE;
             long delay = 0;
             while(isRunning){
-                for (BarAudioTrack bar : bars) {
-                    before = System.currentTimeMillis();
+                for (Bar bar : bars) {
+                    //before = System.currentTimeMillis();
                     bar.play();
-                    after = System.currentTimeMillis();
-                    delay = after - before - bar.getPause();
-                    if(delay < minDelay) minDelay = (delay);
-                    else if(delay > maxDelay) maxDelay = delay;
+                    //after = System.currentTimeMillis();
+                    //delay = after - before - bar.getPause();
+                    //if(delay < minDelay) minDelay = delay;
+                    //else if(delay > maxDelay) maxDelay = delay;
                 }
             }
             System.out.println("MAX DELAY" + maxDelay + "   MIN DELAY" + minDelay);

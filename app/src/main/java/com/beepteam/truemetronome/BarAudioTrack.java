@@ -29,7 +29,7 @@ public class BarAudioTrack extends Bar {
 
     @Override
     public void play() {
-
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         if (isWithAccent && currentBeat == 1) {
         } else {
             before = System.currentTimeMillis();

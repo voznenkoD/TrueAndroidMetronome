@@ -35,8 +35,8 @@ public class SimpleMetronomeActivity extends Activity {
                 }
             }
         });
-        bar = new BarAudioTrack(160,Constants.DEFAULT_TIME_SIGNATURE,this.getApplicationContext());
-        //bar = new BarSoundPool(160,Constants.DEFAULT_TIME_SIGNATURE);
+        //bar = new BarAudioTrack(160,Constants.DEFAULT_TIME_SIGNATURE,this.getApplicationContext());
+        bar = new BarSoundPool(160,Constants.DEFAULT_TIME_SIGNATURE);
 
     }
 
@@ -48,20 +48,25 @@ public class SimpleMetronomeActivity extends Activity {
         protected String doInBackground(Bar... bars) {
             long before;
             long after;
+            double avg = 0L;
+            double count = 0;
             long maxDelay = Integer.MIN_VALUE;
             long minDelay = Integer.MAX_VALUE;
-            long delay = 0;
+            long delay;
             while(isRunning){
                 for (Bar bar : bars) {
-                    //before = System.currentTimeMillis();
+                    before = System.currentTimeMillis();
                     bar.play();
-                    //after = System.currentTimeMillis();
-                    //delay = after - before - bar.getPause();
-                    //if(delay < minDelay) minDelay = delay;
-                    //else if(delay > maxDelay) maxDelay = delay;
+                    after = System.currentTimeMillis();
+                    delay = after - before - bar.getPause();
+                    if(delay < minDelay) minDelay = delay;
+                    else if(delay > maxDelay) maxDelay = delay;
+                    count++;
+                    avg+=delay;
                 }
             }
             System.out.println("MAX DELAY" + maxDelay + "   MIN DELAY" + minDelay);
+            System.out.println("AVG DELAY" + avg/count);
             return null;
         }
         public void stop() {

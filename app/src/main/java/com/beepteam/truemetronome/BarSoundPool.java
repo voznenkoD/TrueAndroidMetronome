@@ -11,6 +11,7 @@ public class BarSoundPool extends Bar {
 
     @Override
     public void play() {
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
         before = System.currentTimeMillis();
         if (isWithAccent && currentBeat == 1) {
             beep(2);

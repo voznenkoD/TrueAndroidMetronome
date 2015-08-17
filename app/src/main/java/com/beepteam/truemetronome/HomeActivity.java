@@ -29,7 +29,7 @@ public class HomeActivity extends Activity {
         final Button buttonProg = (Button) findViewById(R.id.prog_activity_btn);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonProg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, ProgMetroActivity.class);
                 startActivityForResult(intent,0);

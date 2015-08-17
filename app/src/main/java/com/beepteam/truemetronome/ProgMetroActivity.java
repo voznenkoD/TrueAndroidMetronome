@@ -9,6 +9,7 @@ import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class ProgMetroActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        bars = new ArrayList<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prog_metronome);
         final Button button = (Button) findViewById(R.id.SS_BTN);

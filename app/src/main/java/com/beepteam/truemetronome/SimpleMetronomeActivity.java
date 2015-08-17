@@ -15,11 +15,15 @@ public class SimpleMetronomeActivity extends Activity {
     private Boolean isRunning = false;
     private Bar bar;
     private MetronomeAsyncTask task = new MetronomeAsyncTask();
+    public Metronome metronome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_metronome);
+        metronome = new Metronome();
+        metronome.setBpm(160);
+
         final Button button = (Button) findViewById(R.id.SS_BTN);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -31,13 +35,10 @@ public class SimpleMetronomeActivity extends Activity {
                 }
                 else{
                     button.setText("Stop");
-                    task.execute(bar);
+                    task.execute();
                 }
             }
         });
-        //bar = new BarAudioTrack(160,Constants.DEFAULT_TIME_SIGNATURE,this.getApplicationContext());
-        bar = new BarSoundPool(160,Constants.DEFAULT_TIME_SIGNATURE);
-
     }
 
     private class MetronomeAsyncTask extends AsyncTask<Bar,Void,String> {
@@ -46,31 +47,10 @@ public class SimpleMetronomeActivity extends Activity {
         }
         @Override
         protected String doInBackground(Bar... bars) {
-            long before;
-            long after;
-            double avg = 0L;
-            double count = 0;
-            long maxDelay = Integer.MIN_VALUE;
-            long minDelay = Integer.MAX_VALUE;
-            long delay;
             while(isRunning){
-                for (Bar bar : bars) {
-                    before = System.currentTimeMillis();
-                    bar.play();
-                    after = System.currentTimeMillis();
-                    delay = after - before - bar.getPause();
-                    if(delay < minDelay) minDelay = delay;
-                    else if(delay > maxDelay) maxDelay = delay;
-                    count++;
-                    avg+=delay;
-                }
+                metronome.play();
             }
-            System.out.println("MAX DELAY" + maxDelay + "   MIN DELAY" + minDelay);
-            System.out.println("AVG DELAY" + avg/count);
             return null;
-        }
-        public void stop() {
-
         }
     }
 }

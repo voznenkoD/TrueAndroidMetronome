@@ -21,6 +21,10 @@
             android:name="com.beepteam.truemetronome.SimpleMetronomeActivity"
             android:label="@string/title_activity_simple_metronome" >
         </activity>
+        <activity
+            android:name="com.beepteam.truemetronome.ProgMetroActivity"
+            android:label="@string/title_activity_programmable" >
+        </activity>
         <uses-permission android:name="android.permission.WAKE_LOCK" />
         <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 

@@ -12,8 +12,7 @@ import java.io.IOException;
  * Created by a.sergienko
  */
 public class SimpleMetronomeActivity extends Activity {
-    private Boolean isRunning = false;
-    private Bar bar;
+    private Boolean isRunning = true;
     private MetronomeAsyncTask task = new MetronomeAsyncTask();
     public Metronome metronome;
 
@@ -22,20 +21,24 @@ public class SimpleMetronomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_metronome);
         metronome = new Metronome();
-        metronome.setBpm(160);
+        metronome.setBpm(250);
 
         final Button button = (Button) findViewById(R.id.SS_BTN);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 isRunning = !isRunning;
                 if(!isRunning){
-                    button.setText("Start");
                     task = new MetronomeAsyncTask();
+                    button.setText("Stop");
+                    metronome.setPlay(true);
                     Runtime.getRuntime().gc();
+                    task.execute();
                 }
                 else{
-                    button.setText("Stop");
-                    task.execute();
+                    button.setText("Start");
+                    metronome.setPlay(false);
+                    task.cancel(true);
                 }
             }
         });
@@ -47,9 +50,7 @@ public class SimpleMetronomeActivity extends Activity {
         }
         @Override
         protected String doInBackground(Bar... bars) {
-            while(isRunning){
                 metronome.play();
-            }
             return null;
         }
     }

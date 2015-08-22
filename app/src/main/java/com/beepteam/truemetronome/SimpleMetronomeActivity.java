@@ -20,8 +20,12 @@ public class SimpleMetronomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_metronome);
-        metronome = new Metronome();
-        metronome.setBpm(250);
+        try {
+            metronome = new Metronome(this.getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        metronome.setBpm(100);
 
         final Button button = (Button) findViewById(R.id.SS_BTN);
 

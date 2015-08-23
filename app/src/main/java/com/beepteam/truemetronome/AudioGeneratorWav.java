@@ -25,10 +25,9 @@ public class AudioGeneratorWav {
     private static final int HEADER_SIZE = 44;
 
     private void readSound() throws IOException {
-        InputStream in = context.getResources().openRawResource(R.raw.defaultclick);
+        InputStream in = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
         readHeader(in);
         sound = readWavPcm(in);
-
     }
 
     private void readHeader(InputStream wavStream)
@@ -72,8 +71,8 @@ public class AudioGeneratorWav {
         audioTrack.play();
     }
 
-    public void writeSound(byte[] sound) {
-        audioTrack.write(sound, 0, sound.length);
+    public void writeSound(byte[] play) {
+        audioTrack.write(play, 0, play.length);
     }
 
     public void destroyAudioTrack() {

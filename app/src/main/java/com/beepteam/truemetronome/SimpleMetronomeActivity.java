@@ -25,7 +25,7 @@ public class SimpleMetronomeActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        metronome.setBpm(100);
+        metronome.setBpm(30); //I don't know why but it is actually twice bigger
 
         final Button button = (Button) findViewById(R.id.SS_BTN);
 
@@ -48,14 +48,16 @@ public class SimpleMetronomeActivity extends Activity {
         });
     }
 
-    private class MetronomeAsyncTask extends AsyncTask<Bar,Void,String> {
+    private class MetronomeAsyncTask extends AsyncTask {
         MetronomeAsyncTask() {
 
         }
+
         @Override
-        protected String doInBackground(Bar... bars) {
-                metronome.play();
+        protected Object doInBackground(Object[] objects) {
+            metronome.play();
             return null;
         }
+
     }
 }

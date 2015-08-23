@@ -9,7 +9,6 @@ import java.io.IOException;
  */
 public class Metronome {
     private double bpm;
-    private int beat;
     private int silence;
     private int bufferSize;
 
@@ -28,7 +27,7 @@ public class Metronome {
     }
 
     public void calcSilence() {
-        silence = (int) (((60/bpm)*bufferSize)-tick);
+        silence = (int) (((60/bpm)*audioGenerator.getWaveInfo().getRate())-tick);
     }
 
     public void play() {
@@ -37,7 +36,7 @@ public class Metronome {
         byte[] sound = new byte[bufferSize];
         byte[] ding = audioGenerator.getSound();
 
-        int t = 0,s = 0,b = 0;
+        int t = 0,s = 0;
         do {
             for(int i=0;i<sound.length&&play;i++) {
                 if(t<this.tick) {
@@ -49,9 +48,6 @@ public class Metronome {
                     if(s >= this.silence) {
                         t = 0;
                         s = 0;
-                        b++;
-                        if(b > (this.beat-1))
-                            b = 0;
                     }
                 }
             }

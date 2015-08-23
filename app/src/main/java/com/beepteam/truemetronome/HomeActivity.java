@@ -18,23 +18,13 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         final Button button = (Button) findViewById(R.id.SimpleButton);
-        SoundManager.loadSoundToPool(this.getApplicationContext(),"sounds/default/defaultClick.wav");//todo load soundPackage
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, SimpleMetronomeActivity.class);
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
             }
         });
 
-        final Button buttonProg = (Button) findViewById(R.id.prog_activity_btn);
-
-
-        buttonProg.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ProgMetroActivity.class);
-                startActivityForResult(intent,0);
-            }
-        });
     }
 
 

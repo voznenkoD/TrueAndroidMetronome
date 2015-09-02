@@ -15,4 +15,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp" />
 
+    <TextView android:id="@+id/bpm" android:text="BPM" android:layout_width="70dp" android:layout_height="45dp"/>
+    <EditText android:id="@+id/bpmValue" android:layout_width="70dp" android:layout_height="45dp"
+        android:layout_below="@+id/bpm"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="true"
+        android:inputType="phone"/>
+
 </RelativeLayout>

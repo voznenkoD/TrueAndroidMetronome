@@ -55,7 +55,7 @@ public class Metronome {
                         t = 0;
                         s = 0;
                         b++;
-                        if(b > beatsInBar){
+                        if(b == beatsInBar){
                             b = 0;
                         }
                     }
@@ -76,5 +76,9 @@ public class Metronome {
 
     public void setPlay(boolean play) {
         this.play = play;
+    }
+
+    public void setBeatsInBar(int beatsInBar) {
+        this.beatsInBar = beatsInBar;
     }
 }

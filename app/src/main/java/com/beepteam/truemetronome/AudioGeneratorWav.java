@@ -30,7 +30,7 @@ public class AudioGeneratorWav {
         readHeader(inDing);
         ding = readWavPcm(inDing);
         inDing.close();
-        InputStream inDong = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
+        InputStream inDong = context.getResources().openRawResource(R.raw.click1);//16 bit with any sample rate
         readHeader(inDong);
         dong = readWavPcm(inDong);
     }

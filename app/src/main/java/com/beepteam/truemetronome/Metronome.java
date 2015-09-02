@@ -11,6 +11,7 @@ public class Metronome {
     private double bpm;
     private int silence;
     private int bufferSize;
+    private int beatsInBar = 4;
 
     private boolean play = true;
 
@@ -34,13 +35,18 @@ public class Metronome {
         calcSilence();
 
         byte[] sound = new byte[bufferSize];
-        byte[] ding = audioGenerator.getSound();
+        byte[] ding = audioGenerator.getDing();
+        byte[] dong = audioGenerator.getDong();
 
-        int t = 0,s = 0;
+        int t = 0,s = 0, b = 0;
         do {
             for(int i=0;i<sound.length&&play;i++) {
                 if(t<this.tick) {
-                    sound[i] = ding[t];
+                    if(b == 0){
+                        sound[i] = ding[t];
+                    } else {
+                        sound[i] = dong[t];
+                    }
                     t++;
                 } else {
                     sound[i] = 0;
@@ -48,6 +54,10 @@ public class Metronome {
                     if(s >= this.silence) {
                         t = 0;
                         s = 0;
+                        b++;
+                        if(b > beatsInBar){
+                            b = 0;
+                        }
                     }
                 }
             }

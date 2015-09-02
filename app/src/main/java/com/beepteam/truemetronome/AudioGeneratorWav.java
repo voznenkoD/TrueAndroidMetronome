@@ -14,7 +14,8 @@ public class AudioGeneratorWav {
     private AudioTrack audioTrack;
     private WaveInfo waveInfo;
     private Context context;
-    private byte[] sound;
+    private byte[] ding;
+    private byte[] dong;
 
     public AudioGeneratorWav(Context context) throws IOException {
         waveInfo = new WaveInfo();
@@ -25,9 +26,13 @@ public class AudioGeneratorWav {
     private static final int HEADER_SIZE = 44;
 
     private void readSound() throws IOException {
-        InputStream in = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
-        readHeader(in);
-        sound = readWavPcm(in);
+        InputStream inDing = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
+        readHeader(inDing);
+        ding = readWavPcm(inDing);
+        inDing.close();
+        InputStream inDong = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
+        readHeader(inDong);
+        dong = readWavPcm(inDong);
     }
 
     private void readHeader(InputStream wavStream)
@@ -84,8 +89,12 @@ public class AudioGeneratorWav {
         return waveInfo;
     }
 
-    public byte[] getSound() {
-        return sound;
+    public byte[] getDing() {
+        return ding;
+    }
+
+    public byte[] getDong() {
+        return dong;
     }
 }
 

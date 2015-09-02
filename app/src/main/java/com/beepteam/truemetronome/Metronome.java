@@ -61,7 +61,7 @@ public class Metronome {
                     }
                 }
             }
-            audioGenerator.writeSound(sound);
+                audioGenerator.writeSound(sound);
         } while(play);
     }
 

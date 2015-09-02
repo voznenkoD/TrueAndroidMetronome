@@ -36,15 +36,13 @@ public class SimpleMetronomeActivity extends Activity {
 
         EditText mEditBpm = (EditText)findViewById(R.id.bpmValue);
 
-        mEditBpm.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
+        mEditBpm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String input;
-                    input= v.getText().toString();
-                    metronome.setBpm(Double.parseDouble(input));
-                    return true; // consume.
+                input = v.getText().toString();
+                metronome.setBpm(Double.parseDouble(input));
+                return true; // consume.
             }
         });
 
@@ -65,6 +63,20 @@ public class SimpleMetronomeActivity extends Activity {
                 }
             }
         });
+
+        EditText mEditMeasure = (EditText)findViewById(R.id.measureValue);
+
+        mEditMeasure.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String input;
+                input = v.getText().toString();
+                metronome.setBeatsInBar(Integer.parseInt(input));
+                return true; // consume.
+            }
+        });
+
+
     }
 
     private class MetronomeAsyncTask extends AsyncTask {

@@ -26,13 +26,16 @@ public class AudioGeneratorWav {
     private static final int HEADER_SIZE = 44;
 
     private void readSound() throws IOException {
-        InputStream inDing = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
+        //pay attention to sound length, in some cases exceptions can occur
+        //proper fix is to use somehow two different sound infos
+        InputStream inDong = context.getResources().openRawResource(R.raw.defaultclick);//16 bit with any sample rate
+        readHeader(inDong);
+        dong = readWavPcm(inDong);
+        inDong.close();
+        InputStream inDing = context.getResources().openRawResource(R.raw.cowbell);//16 bit with any sample rate
         readHeader(inDing);
         ding = readWavPcm(inDing);
         inDing.close();
-        InputStream inDong = context.getResources().openRawResource(R.raw.click1);//16 bit with any sample rate
-        readHeader(inDong);
-        dong = readWavPcm(inDong);
     }
 
     private void readHeader(InputStream wavStream)

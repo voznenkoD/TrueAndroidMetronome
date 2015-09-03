@@ -1,16 +1,24 @@
 package com.beepteam.truemetronome;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /*
  * Created by a.sergienko
@@ -34,23 +42,21 @@ public class SimpleMetronomeActivity extends Activity {
 
         final Button button = (Button) findViewById(R.id.SS_BTN);
 
-        EditText mEditBpm = (EditText)findViewById(R.id.bpmValue);
-
-        mEditBpm.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String input;
-                input = v.getText().toString();
-                metronome.setBpm(Double.parseDouble(input));
-                return true; // consume.
-            }
-        });
 
 
+
+        final EditText mEditBpm = (EditText)findViewById(R.id.bpmValue);
+        final EditText mEditMeasure = (EditText)findViewById(R.id.bpmValue);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 isRunning = !isRunning;
                 if (!isRunning) {
+                    String value = mEditBpm.getText().toString();
+                    if (!value.equals("")) {
+                        metronome.setBpm(Double.parseDouble(value));
+                    } else {
+                        metronome.setBpm(60);
+                    }
                     task = new MetronomeAsyncTask();
                     button.setText("Stop");
                     metronome.setPlay(true);
@@ -63,20 +69,13 @@ public class SimpleMetronomeActivity extends Activity {
                 }
             }
         });
+    }
 
-        EditText mEditMeasure = (EditText)findViewById(R.id.measureValue);
-
-        mEditMeasure.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String input;
-                input = v.getText().toString();
-                metronome.setBeatsInBar(Integer.parseInt(input));
-                return true; // consume.
-            }
-        });
-
-
+    @Override
+    protected void onPause(){
+        super.onPause();
+        task.cancel(true);
+        metronome.stop();
     }
 
     private class MetronomeAsyncTask extends AsyncTask {

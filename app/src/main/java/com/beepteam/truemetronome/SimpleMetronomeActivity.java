@@ -38,27 +38,36 @@ public class SimpleMetronomeActivity extends Activity {
             e.printStackTrace();
         }
 
-        metronome.setBpm(30); //I don't know why but it is actually twice bigger
+        metronome.setBpm(60); //I don't know why but it is actually twice bigger
 
         final Button button = (Button) findViewById(R.id.SS_BTN);
+        final TextView currentBPM = (TextView) findViewById(R.id.currentBPM);
 
 
+        RotaryKnobView jogView = (RotaryKnobView)findViewById(R.id.jogView);
+        jogView.setKnobListener(new RotaryKnobView.RotaryKnobListener() {
+            @Override
+            public void onKnobChanged(int arg) {
+                if (arg > 0) {
+                    metronome.setBpm(metronome.getBpm() + 1);
+                    currentBPM.setText(String.valueOf(metronome.getBpm()*2));
+                } else {
+                    metronome.setBpm(metronome.getBpm() - 1);
+                    currentBPM.setText(String.valueOf(metronome.getBpm()*2));
+                }
+
+            }});
 
 
-        final EditText mEditBpm = (EditText)findViewById(R.id.bpmValue);
-        final Spinner measureSpinner = (Spinner)findViewById(R.id.measureValue);
+            final Spinner measureSpinner = (Spinner) findViewById(R.id.measureValue);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            button.setOnClickListener(new View.OnClickListener()
+
+            {
+                public void onClick (View v){
                 isRunning = !isRunning;
                 metronome.setBeatsInBar(Integer.parseInt(measureSpinner.getSelectedItem().toString().split("/")[0]));
                 if (!isRunning) {
-                    String valueBPM = mEditBpm.getText().toString();
-                    if (!valueBPM.equals("")) {
-                        metronome.setBpm(Double.parseDouble(valueBPM)/2);
-                    } else {
-                        metronome.setBpm(60);
-                    }
                     task = new MetronomeAsyncTask();
                     button.setText("Stop");
                     metronome.setPlay(true);
@@ -70,10 +79,12 @@ public class SimpleMetronomeActivity extends Activity {
                     task.cancel(true);
                 }
             }
-        });
-    }
+            }
 
-    @Override
+            );
+        }
+
+        @Override
     protected void onPause(){
         super.onPause();
         task.cancel(true);
@@ -90,6 +101,5 @@ public class SimpleMetronomeActivity extends Activity {
             metronome.play();
             return null;
         }
-
     }
 }

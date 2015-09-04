@@ -81,4 +81,8 @@ public class Metronome {
     public void setBeatsInBar(int beatsInBar) {
         this.beatsInBar = beatsInBar;
     }
+
+    public double getBpm() {
+        return bpm;
+    }
 }

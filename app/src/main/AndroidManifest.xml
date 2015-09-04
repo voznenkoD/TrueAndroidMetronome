@@ -18,8 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.beepteam.truemetronome.SimpleMetronomeActivity"
-            android:label="@string/title_activity_simple_metronome" >
+            android:name="com.beepteam.truemetronome.SimpleMetronomeActivity" >
         </activity>
 
         <uses-permission android:name="android.permission.WAKE_LOCK" />

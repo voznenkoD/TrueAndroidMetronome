@@ -46,17 +46,19 @@ public class SimpleMetronomeActivity extends Activity {
 
 
         final EditText mEditBpm = (EditText)findViewById(R.id.bpmValue);
-        final EditText mEditMeasure = (EditText)findViewById(R.id.bpmValue);
+        final EditText mEditMeasure = (EditText)findViewById(R.id.measureValue);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 isRunning = !isRunning;
                 if (!isRunning) {
-                    String value = mEditBpm.getText().toString();
-                    if (!value.equals("")) {
-                        metronome.setBpm(Double.parseDouble(value));
+                    String valueBPM = mEditBpm.getText().toString();
+                    int valueMeasure = Integer.parseInt(mEditMeasure.getText().toString());
+                    if (!valueBPM.equals("")) {
+                        metronome.setBpm(Double.parseDouble(valueBPM)/2);
                     } else {
                         metronome.setBpm(60);
                     }
+                    metronome.setBeatsInBar(valueMeasure);
                     task = new MetronomeAsyncTask();
                     button.setText("Stop");
                     metronome.setPlay(true);

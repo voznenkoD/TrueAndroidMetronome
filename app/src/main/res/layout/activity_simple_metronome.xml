@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/activity_vertical_margin"/>
 
-    <com.beepteam.truemetronome.RotaryKnobView
+    <com.beepteam.truemetronome.RoundKnobButton
         android:id="@+id/jogView"
         android:layout_width="300px"
         android:layout_height="300px"

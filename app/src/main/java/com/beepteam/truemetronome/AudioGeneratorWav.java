@@ -60,7 +60,13 @@ public class AudioGeneratorWav {
             wavStream.read(buffer.array(), buffer.arrayOffset(), 8);
             buffer.rewind();
         }
-        waveInfo.setDataSize(buffer.getInt());
+        setHackDataSize(buffer.getInt());
+    }
+
+    private void setHackDataSize(int dataSize) {
+        if(waveInfo.getDataSize() == 0 || dataSize < waveInfo.getDataSize()){
+            waveInfo.setDataSize(dataSize);
+        }
     }
 
     private byte[] readWavPcm(InputStream stream) throws IOException {

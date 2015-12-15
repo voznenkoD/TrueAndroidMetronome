@@ -24,7 +24,7 @@ public class Metronome {
         audioGenerator = new AudioGeneratorWav(context);
         audioGenerator.createPlayer();
         tick = audioGenerator.getWaveInfo().getDataSize();
-        bufferSize = tick * 2;
+        bufferSize = tick;
     }
 
     public void calcSilence() {
